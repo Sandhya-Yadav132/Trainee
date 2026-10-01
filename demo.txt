@@ -1,0 +1,3 @@
+Hello welcome
+python is a high level Programming_Language.
+It is a partially interpreter Programming_Language

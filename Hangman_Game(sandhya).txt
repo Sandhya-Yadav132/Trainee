@@ -1,0 +1,116 @@
+# Person 1(Sandhya Yadav) – Game Setup & Category Selection
+
+# Responsibilities:
+
+#  Display welcome message (5–10 seconds).
+#  Display available categories.
+#  Ask the player to choose a category (or randomly select if none is chosen).
+#  Pick the hidden word from the category.
+#  Clear the screen and show the category name and underscores for the word.
+
+# Deliverables:
+
+#  show_welcome_message()
+#  list_categories()
+#  choose_category()
+#  pick_word(category)
+#  display_initial_state(word_length, category)
+
+# Dependencies:
+
+#  Will provide the chosen word and its length to Person 2 and Person 3.
+
+#===========================================================================
+
+import time
+import random
+import os
+
+
+categories = {
+    "Programming_Language": ["python", "java", "php", "c#", "c", "c++"],
+    "Operating_System": ["windows", "linux", "macos", "android", "ubuntu"],
+    "Laptop_Brands": ["hp", "lenova", "asus", "dell", "acer"],
+    "Python_Datatypes": ["int", "float", "list", "tuple", "set", "dict", "bool", "complex"],
+    "Web_Browsers": ["chrome", "firefox", "edge", "safari", "opera"],
+    "Social_Media": ["facebook", "instagram", "twitter", "linkedin", "youtube"],
+    "Programming_Tools": ["git", "docker", "postman", "github", "vscode"],
+    "Databases": ["mysql", "sqlite", "mongodb", "oracle", "postgresql"]
+}
+
+
+def show_welcome_message():
+    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    print("\n                  Welcome To HANGMAN\n")
+    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+    time.sleep(5)
+
+
+def list_categories():
+    print("\nAvailable Categories:\n")
+
+    for index, category in enumerate(categories, start=1):
+        print(f"{index}. {category}")
+
+
+def choose_category():
+    category_names = list(categories.keys())
+
+    choice = input("\nEnter category number: ")
+
+    if choice == '':
+        return random.choice(category_names)
+
+    
+    try:
+        choice = int(choice)
+        if choice >= 1 and choice <= len(category_names):
+            return category_names[choice - 1]
+        else:
+            print("Invalid Choice")
+            # return random.choice(category_names)
+            return choose_category()
+
+    except ValueError:
+        print("Invalid Input")
+        # return random.choice(category_names)
+        return choose_category()
+
+
+def pick_word(chosen_category):
+    word = random.choice(categories[chosen_category])
+    return word
+
+
+def display_initial_state(word_length, category):
+    os.system("cls" if os.name == "nt" else "clear")
+    
+    print("\nCategory:", category)
+    print("\nWord:",end=" ")
+
+    for _ in range(word_length):
+        print("_",end=" ")
+
+    print()
+
+
+def game_setup():
+    show_welcome_message()
+
+    list_categories()
+
+    category = choose_category()
+
+    word = pick_word(category)
+
+    word_length = len(word)
+
+    display_initial_state(word_length, category)
+
+    return word, len(word), category
+
+
+word, word_length, category = game_setup()
+
+
